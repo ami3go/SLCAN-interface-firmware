@@ -64,6 +64,7 @@ INT8U myCustomAddressFilter(INT32U addr) {
 
 void loop() {
     Can232::loop();
+    Can232::serialEvent();
 }
 
 void serialEvent() {
