@@ -15,7 +15,7 @@
 #include "mcp_can.h"
 #include "can-232.h"
 
-#define LOGGING_ENABLED
+#define LOGGING_ENABLED 1
 
 #ifdef LOGGING_ENABLED
 #define dbg_begin(x) debug.begin(x)
@@ -112,7 +112,7 @@ void Can232::loopFunc() {
     }
 }
 void Can232::serialEventFunc() {
-    while (Serial.available()) {
+    while (Serial.available() > 0 ) {
         char inChar = (char)Serial.read();
         inputString += inChar;
         if (inChar == LW232_CR) {
@@ -479,7 +479,7 @@ INT8U Can232::sendMsgBuf(INT32U id, INT8U ext, INT8U rtr, INT8U len, INT8U *buf)
 #ifndef _MCP_FAKE_MODE_
     return lw232CAN.sendMsgBuf(id, ext, rtr, len, buf);
 #else
-    Serial.print("<sending:");
+    Serial.print(LW232_CMD_OPEN <sending:");
     Serial.print(id, HEX);
     Serial.print(',');
     if (ext) Serial.print('+');

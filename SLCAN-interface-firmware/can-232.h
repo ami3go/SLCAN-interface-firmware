@@ -99,11 +99,23 @@
 
 //#define LW232_IS_OK(x) ((x)==LW232_OK ||(x)==LW232_OK_NEW ? TRUE : FALSE)
 
+
 #define LW232_CR    '\r'
 #define LW232_ALL   'A'
 #define LW232_FLAG  'F'
 #define LW232_TR11  't'
 #define LW232_TR29  'T'
+
+// #define LW232_CR    0xBB
+// //#define LW232_CR    '\r'
+// #define LW232_ALL   'A'
+// #define LW232_FLAG  'F'
+// #define LW232_TR11  0xAA
+// #define LW232_TR29  'T'
+
+
+
+
 
 #define LW232_RET_ASCII_OK             0x0D
 #define LW232_RET_ASCII_ERROR          0x07
@@ -142,7 +154,7 @@
 
 #define LW232_DEFAULT_BAUD_RATE        115200
 #define LW232_DEFAULT_CAN_RATE         CAN_500KBPS
-#define LW232_DEFAULT_CLOCK_FREQ       MCP_16MHz
+#define LW232_DEFAULT_CLOCK_FREQ       MCP_8MHz
 
 #define LW232_CAN_BAUD_NUM             0x0a
 #define LW232_UART_BAUD_NUM            0x07
