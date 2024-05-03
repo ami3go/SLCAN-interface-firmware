@@ -1,25 +1,43 @@
-# arduino-canbus-monitor [![Build Status](https://api.travis-ci.org/latonita/arduino-canbus-monitor.svg?branch=master)](https://travis-ci.org/latonita/arduino-canbus-monitor) [![Coverity Scan](https://scan.coverity.com/projects/11684/badge.svg)](https://scan.coverity.com/projects/latonita-arduino-canbus-monitor) [![Analytics](https://ga-beacon.appspot.com/UA-99380399-1/welcome-page)](https://github.com/igrigorik/ga-beacon)
+# SLCAN-interface-firmware 
+---
 
-CAN BUS monitoring software based on Arduino with Seeduino/ElecFreaks CAN BUS shield based on MCP2515 (Numerous other MCP2515 based CAN BUS modules from ebay and aliexpress work well to).
+CAN BUS interface firmware based on Arduino and SPI MCP2515. It is positoion as cheap easy to build interface.  
+
+- https://github.com/ami3go/SLCAN-interface-hardware
+- Numerous other MCP2515 based CAN BUS modules from ebay and aliexpress work well to
 
 This software implements CAN ASCII / Serial CAN / SLCAN protocol compatible with Lawicel CAN232/CANUSB. 
 
-As for PC counterpart software I personally used and can recommend two tools:
+---
 
-1) [Windows] CANHacker tool v.2.00.01 (by fuchs) to sniff and visualize data on the bus. You can download CANHacker tool from this forum page: http://www.canhack.net/viewforum.php?f=25&sid=ac01d465f19e088cb160cab630561607 (P.S. Looks like canhack.net no longer operating, here is a copy of installation file: [CANHackerV2.00.01.exe](https://github.com/latonita/arduino-canbus-monitor/raw/master/CANHackerV2.00.01.exe))
+As for PC counterpart software I personally used and can recommend few tools:
 
-2) [Windows] CAN-COOL (by MHS Elektronik), open source, but unfortunaly available only in German. Download link: http://www.mhs-elektronik.de/index.php?module=content&action=show&page=can_cool  (Make sure you select RS232 and SL-CAN protocol and then click hardware bus reset icon on a toolbar)
+1) [**Python pyCAN**]. Most popular Python library for CAN interfaces
+   - https://python-can.readthedocs.io
+   - https://github.com/ami3go/SLCAN-python-examples
+  
+2) [**Linux**] SLCAN/SocketCAN can be used https://github.com/linux-can/can-utils. See details in the end of this README file
+    
+3) [**Windows**] CANHacker tool v.2.00.01 (by fuchs) to sniff and visualize data on the bus.
+    [CANHackerV2.00.01.exe](https://github.com/latonita/arduino-canbus-monitor/raw/master/CANHackerV2.00.01.exe)
 
-3) [Linux] SLCAN/SocketCAN can be used https://github.com/linux-can/can-utils. See details in the end of this README file
+5) [**Windows/Linux**] CAN-COOL (by MHS Elektronik), open source, but unfortunaly available only in German.
+   -  [Download link](http://www.mhs-elektronik.de/index.php?module=content&action=show&page=can_cool)  (Make sure you select RS232 and SL-CAN protocol and then click hardware bus reset icon on a toolbar)
+   -  [Git Hub repository](https://github.com/MHS-Elektronik/OBD-Display)
 
-This monitor uses CAN BUS library forked from https://github.com/Seeed-Studio/CAN_BUS_Shield.
+---
+
+This code forked from https://github.com/Seeed-Studio/CAN_BUS_Shield.
 
 Copyright (C) 2015,2016 Anton Viktorov <latonita@yandex.ru>
 
-You can buy me a beer if you like the tool :o)   [![Donate](https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=4JPDVHYWUY3LW)
+---
 
+See protocol definition here: 
+- http://www.can232.com/docs/can232_v3.pdf
+- http://www.can232.com/docs/canusb_manual.pdf
 
-See protocol definition here http://www.can232.com/docs/can232_v3.pdf and here http://www.can232.com/docs/canusb_manual.pdf
+---
 
 Commands not supported/not implemented:  
 - s, W, M, m, U.
@@ -71,12 +89,15 @@ sudo apt install can-utils
 For other distros please follow respective instructions, start from here https://github.com/linux-can/can-utils
 
 ### Create CAN device
+Linux have different naming for serial port based on implenetation:
+- USB-to-Serial ICs, such as CH340 get /dev/ttyUSBx where x=[1,2,3...]
+- Micro with intergrated USB, such as ATmega32u4 get /dev/ttyACMx where x=[1,2,3...]
 ```
-sudo slcan_attach -f -s4 -o /dev/ttyUSB0
+sudo slcan_attach -f -s4 -o /dev/ttyUSB0 
 sudo slcand -S 115200 /dev/ttyUSB0 can0  
 sudo ifconfig can0 up
 ```
-where 115200 is port speed, `/dev/ttyUSB0` - name of your arduino device. can be different 
+where 115200 is port speed, `/dev/ttyUSB0` - name of your arduino device. can be different
 
 ### To dump running traffic 
 ```
